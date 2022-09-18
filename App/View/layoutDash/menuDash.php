@@ -34,7 +34,7 @@ $linksSidebar = [
     [
         'mode' => 'menu',
         'text' => 'Usuarios',
-        'url'  => '/users',
+        'url'  => route('users.index'),
         'icon' => 'bi bi-person',
     ],
     ['header' => 'Estudiantes',],
@@ -79,5 +79,7 @@ $linksCss = [
 
 $linksScript = [
     $linkURL . '/assets/js/app.js',
-    // $linkURL . '/assets/js/settings.js',
+    $linkURL . '/assets/js/datatable.js',
+    $linkURL . '/assets/js/visorfoto.js',
+    $linkURL . '/assets/js/sweetalert2.js',
 ];
