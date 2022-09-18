@@ -64,9 +64,9 @@ class LoginController extends Controller
         } else {
             // echo 'hola';
             $user = Users::select('id, email, name', 'estado', 'rango')->where('email', $data->email)->get();
-            dd($user);
+            // dd($user);
             auth()->attempt($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard.index');
         }
     }
 

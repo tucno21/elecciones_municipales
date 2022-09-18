@@ -5,7 +5,7 @@
         <div class="row text-muted">
             <div class="col-6 text-end">
                 <p class="mb-0">
-                    &copy; 2021</a>
+                    &copy; <?= date('Y') ?></a>
                 </p>
             </div>
         </div>

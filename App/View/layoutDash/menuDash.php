@@ -1,9 +1,8 @@
 <?php
 
 // DATOS GENERALES ADMIN
-$title = 'AppStack';
-$titleShort = 'M';
-$mainLink = base_url('/dashboard');
+$title = 'Tu Voto';
+$mainLink = route('dashboard.index');
 $logoAdmin = '../public/logo/logo.png';
 
 //DATOS DEL USUARIO ADMIN
@@ -14,28 +13,8 @@ $userName = session()->user()->name;
 //MENU CERRAR O PERFIL DE ADMINISTRADOR
 $menuSession = [
     [
-        'text' => 'My Account',
-        'url'  => '#',
-        'icon' => 'bi bi-person-circle',
-    ],
-    [
-        'text' => 'Settings',
-        'url'  => 'dashboard/logs',
-        'icon' => 'bi bi-gear',
-    ],
-    [
-        'text' => 'My Wallet',
-        'url'  => base_url('/logout'),
-        'icon' => 'bi bi-wallet2',
-    ],
-    [
-        'text' => 'Lock Screen',
-        'url'  => '#',
-        'icon' => 'bi bi-shield-lock',
-    ],
-    [
         'text' => 'Logout',
-        'url'  => route('logout'),
+        'url'  => route('login.logout'),
         'icon' => 'bi bi-box-arrow-right',
     ],
 ];
@@ -44,88 +23,46 @@ $menuSession = [
 
 //CREACION DE ENLACES PARA EL MENU SIDEBAR
 $linksSidebar = [
-    ['header' => 'Navegación',],
+    ['header' => 'Dashboard',],
     [
         'mode' => 'menu',
         'text' => 'Dashboard',
-        'url'  => '/',
+        'url'  => route('dashboard.index'),
         'icon' => 'bi bi-speedometer2',
     ],
-    [
-        'mode' => 'submenu',
-        'text'    => 'Usuarios',
-        'url'    => '#',
-        'icon' => 'bi bi-person-lines-fill',
-        'submenu' => [
-            [
-                'text' => 'Usuarios',
-                'url'  => base_url('/pusuarios'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Modulos',
-                'url'  => base_url('/pmodulos'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Roles',
-                'url'  => base_url('/proles'),
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
+    ['header' => 'Usuarios',],
     [
         'mode' => 'menu',
-        'text' => 'Productos',
+        'text' => 'Usuarios',
         'url'  => '/users',
-        'icon' => 'bi bi-shop',
+        'icon' => 'bi bi-person',
+    ],
+    ['header' => 'Estudiantes',],
+    [
+        'mode' => 'menu',
+        'text' => 'Estudiantes',
+        'url'  => '/charts',
+        'icon' => 'bi bi-people',
+    ],
+    ['header' => 'Elecciones'],
+    [
+        'mode' => 'menu',
+        'text' => 'Candidatos',
+        'url'  => '/charts',
+        'icon' => 'bi bi-person-workspace',
     ],
     [
         'mode' => 'menu',
-        'text' => 'Charts',
+        'text' => 'Fecha de Electoral',
         'url'  => '/charts',
-        'icon' => 'bi bi-clipboard-data',
+        'icon' => 'bi bi-calendar-day',
     ],
-    ['header' => 'Apps'],
+    ['header' => 'Diseño'],
     [
-        'mode' => 'submenu',
-        'text'    => 'Categorias',
-        'url'    => '#',
-        'icon' => 'bi bi-tags',
-        'submenu' => [
-            [
-                'text' => 'Crear',
-                'url'  => 'category/create',
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Editar',
-                'url'  => 'category/edit',
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
-    [
-        'mode' => 'submenu',
-        'text'    => 'Productos',
-        'url'    => '#',
-        'icon' => 'bi bi-shop',
-        'submenu' => [
-            [
-                'text' => 'Crear',
-                'url'  => 'www.google.com',
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Editar',
-                'url'  => 'www.google.com',
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
-
-    [
-        'header' => 'CLIENTES'
+        'mode' => 'menu',
+        'text' => 'Diseño',
+        'url'  => '/charts',
+        'icon' => 'bi bi-palette',
     ],
 ];
 
@@ -142,4 +79,5 @@ $linksCss = [
 
 $linksScript = [
     $linkURL . '/assets/js/app.js',
+    // $linkURL . '/assets/js/settings.js',
 ];
