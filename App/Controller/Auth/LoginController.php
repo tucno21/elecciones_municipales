@@ -5,6 +5,7 @@ namespace App\Controller\Auth;
 use App\Model\Users;
 use System\Controller;
 use App\Model\Students;
+use App\Model\VotingDate;
 
 
 class LoginController extends Controller
@@ -32,10 +33,34 @@ class LoginController extends Controller
                 'data' => $data,
             ]);
         } else {
+            $fechaVoto = VotingDate::find(1);
             $student = Students::where('dni', $data->dni)->get();
-            auth()->set('student', $student);
 
-            return redirect()->route('tuvoto.index');
+            $fechaHoy = date("Y-m-d");
+            $horahoy = date("H:i:s");
+
+            if ($fechaVoto->fecha == $fechaHoy) {
+                if ($horahoy >= $fechaVoto->hora_inicio && $horahoy <= $fechaVoto->hora_fin) {
+                    if ($student->candidatoId == null || $student->candidatoId == '' || $student->candidatoId == 0) {
+                        auth()->set('student', $student);
+                        return redirect()->route('tuvoto.index');
+                    } else {
+                        session()->flash('errorSesion', 'Usted ya voto no puede entrar');
+                        return redirect()->route('login.index');
+                    }
+                } else {
+                    $newTimeStart = date('h:i A', strtotime($fechaVoto->hora_inicio));
+                    $newTimeEnd = date('h:i A', strtotime($fechaVoto->hora_fin));
+
+                    session()->flash('errorSesion', 'La votacion es de: ' . $newTimeStart . ' a ' . $newTimeEnd);
+                    return redirect()->route('login.index');
+                }
+            } else {
+                $newDate = implode('-', array_reverse(explode('-', $fechaVoto->fecha)));
+
+                session()->flash('errorSesion', 'La fecha de votacion es: ' . $newDate);
+                return redirect()->route('login.index');
+            }
         }
     }
 

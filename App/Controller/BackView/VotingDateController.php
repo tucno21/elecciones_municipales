@@ -36,8 +36,12 @@ class VotingDateController extends Controller
 
     public function edit()
     {
+        $fechaVoto = VotingDate::find(1);
+        $newDate = implode('-', array_reverse(explode('-', $fechaVoto->fecha)));
+        $fechaVoto->fecha =  $newDate;
+
         return view('votingdate.edit', [
-            // 'data' => $date,
+            'data' => $fechaVoto,
         ]);
     }
 

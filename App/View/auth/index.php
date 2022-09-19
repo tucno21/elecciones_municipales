@@ -4,6 +4,15 @@
     <div class="col-md-4 p-5 shadow-sm border rounded-5 border-primary">
         <h4 class="text-center mb-4 text-light">Elecciones Municipales Escolares 2023</h4>
         <p class="text-center mb-4 text-light">¡Acceso a voto!</p>
+        <?php
+        if (session()->has('errorSesion')) {
+        ?>
+            <div class="alert alert-danger text-center">
+                <?= session()->get('errorSesion'); ?>
+            </div>
+        <?php
+        }
+        ?>
         <form action="<?= route('login.index') ?>" method="POST">
             <?= csrf() ?>
             <div class="mb-5">
