@@ -4,6 +4,7 @@ use System\Route;
 use App\Controller\Auth\LoginController;
 use App\Controller\BackView\UserController;
 use App\Controller\BackView\StudentController;
+use App\Controller\BackView\CandidateController;
 use App\Controller\BackView\DashboardController;
 
 /**
@@ -42,3 +43,11 @@ Route::get('/students/report', [StudentController::class, 'report'])->name('stud
 Route::get('/students/uploaddata', [StudentController::class, 'uploaddata'])->name('students.uploaddata');
 Route::post('/students/uploaddata', [StudentController::class, 'uploaddatastore']);
 Route::get('/students/deletedata', [StudentController::class, 'deletedata'])->name('students.deletedata');
+
+//crud candidates
+Route::get('/candidates', [CandidateController::class, 'index'])->name('candidates.index');
+Route::get('/candidates/create', [CandidateController::class, 'create'])->name('candidates.create');
+Route::post('/candidates/create', [CandidateController::class, 'store']);
+Route::get('/candidates/edit', [CandidateController::class, 'edit'])->name('candidates.edit');
+Route::post('/candidates/edit', [CandidateController::class, 'update']);
+Route::get('/candidates/delete', [CandidateController::class, 'destroy'])->name('candidates.destroy');
