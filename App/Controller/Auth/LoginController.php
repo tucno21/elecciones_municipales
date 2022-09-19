@@ -4,6 +4,7 @@ namespace App\Controller\Auth;
 
 use App\Model\Users;
 use System\Controller;
+use App\Model\Students;
 
 
 class LoginController extends Controller
@@ -22,7 +23,7 @@ class LoginController extends Controller
         $data = $this->request()->getInput();
 
         $valid = $this->validate($data, [
-            'dni' => 'required|integer|between:8,8',
+            'dni' => 'required|integer|between:8,8|not_unique:Students,dni',
         ]);
         // dd($valid);
         if ($valid !== true) {
@@ -31,12 +32,10 @@ class LoginController extends Controller
                 'data' => $data,
             ]);
         } else {
-            echo 'hola';
-            $user = Users::select('id, email, name', 'estado', 'rango')->where('email', $data->email)->get();
-            dd($user);
-            // auth()->attempt($user);
+            $student = Students::where('dni', $data->dni)->get();
+            auth()->set('student', $student);
 
-            // return redirect()->route('dashboard');
+            return redirect()->route('tuvoto.index');
         }
     }
 
