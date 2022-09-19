@@ -3,6 +3,7 @@
 use System\Route;
 use App\Controller\Auth\LoginController;
 use App\Controller\BackView\UserController;
+use App\Controller\BackView\DesignController;
 use App\Controller\BackView\StudentController;
 use App\Controller\BackView\CandidateController;
 use App\Controller\BackView\DashboardController;
@@ -57,3 +58,8 @@ Route::get('/candidates/delete', [CandidateController::class, 'destroy'])->name(
 Route::get('/votingdate', [VotingDateController::class, 'index'])->name('votingdate.index');
 Route::get('/votingdate/edit', [VotingDateController::class, 'edit'])->name('votingdate.edit');
 Route::post('/votingdate/edit', [VotingDateController::class, 'update']);
+
+//DISEÑO LOGIN voto
+Route::get('/design', [DesignController::class, 'index'])->name('design.index');
+Route::get('/design/edit', [DesignController::class, 'edit'])->name('design.edit');
+Route::post('/design/edit', [DesignController::class, 'update']);

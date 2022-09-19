@@ -61,7 +61,7 @@ $linksSidebar = [
     [
         'mode' => 'menu',
         'text' => 'Diseño',
-        'url'  => '/charts',
+        'url'  => route('design.index'),
         'icon' => 'bi bi-palette',
     ],
 ];
