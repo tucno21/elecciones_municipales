@@ -4,6 +4,8 @@ namespace App\Controller\BackView;
 
 use System\Controller;
 use App\Model\Students;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class StudentController extends Controller
 {
@@ -95,5 +97,32 @@ class StudentController extends Controller
         $data = $this->request()->getInput();
         $result = Students::delete((int)$data->id);
         return redirect()->route('students.index');
+    }
+
+    public static function tablemodel()
+    {
+        $excel = new Spreadsheet();
+        $hojaActiva = $excel->getActiveSheet();
+        $hojaActiva->setTitle('modelo');
+        $hojaActiva->getTabColor()->setRGB('FF0000');
+
+        $hojaActiva->getColumnDimension('A')->setWidth(30);
+        $hojaActiva->setCellValue('A1', 'NOMBRE Y APELLIDOS');
+        $hojaActiva->getColumnDimension('B')->setWidth(15);
+        $hojaActiva->setCellValue('B1', 'DNI');
+        $hojaActiva->getColumnDimension('C')->setWidth(10);
+        $hojaActiva->setCellValue('C1', 'AULA');
+
+        $hojaActiva->setCellValue('A2', 'Juan Velarde Fajardo');
+        $hojaActiva->setCellValue('B2', '44442222');
+        $hojaActiva->setCellValue('C2', '1A');
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="modelo.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

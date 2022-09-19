@@ -18,7 +18,7 @@
 					</a>
 
 					<?php if (session()->user()->rango == 'Administrador') : ?>
-						<a href="/estudiantes/modelo" class="mt-1 btn btn-success">
+						<a href="<?= route('students.tablemodel') ?>" class="mt-1 btn btn-success">
 							<i class="bi bi-arrow-down-square"></i>
 							<i class="bi bi-file-earmark-excel"></i>
 							Descargar Modelo
