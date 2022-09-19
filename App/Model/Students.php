@@ -27,4 +27,11 @@ class Students extends Model
      */
     protected static $passEncrypt = false;
     protected static $useTimestamps   = false;
+
+    public static function truncate()
+    {
+        $query = "TRUNCATE students";
+        $data = parent::querySimple($query);
+        return $data;
+    }
 }

@@ -125,4 +125,104 @@ class StudentController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+    public static function report()
+    {
+        $resultados = Students::get();
+        //cuando viene un solo objeto
+        if (is_object($resultados)) {
+            $resultados = [$resultados];
+        }
+
+        $excel = new Spreadsheet();
+        $hojaActiva = $excel->getActiveSheet();
+        $hojaActiva->setTitle('Participación');
+        $hojaActiva->getTabColor()->setRGB('FF0000');
+
+        $hojaActiva->getColumnDimension('A')->setWidth(5);
+        $hojaActiva->setCellValue('A1', 'N');
+        $hojaActiva->getColumnDimension('B')->setWidth(30);
+        $hojaActiva->setCellValue('B1', 'NOMBRE Y APELLIDOS');
+        $hojaActiva->getColumnDimension('C')->setWidth(10);
+        $hojaActiva->setCellValue('C1', 'DNI');
+        $hojaActiva->getColumnDimension('D')->setWidth(7);
+        $hojaActiva->setCellValue('D1', 'AULA');
+        $hojaActiva->getColumnDimension('E')->setWidth(8);
+        $hojaActiva->setCellValue('E1', 'PARTICPACIÓN');
+        $hojaActiva->getColumnDimension('F')->setWidth(20);
+        $hojaActiva->setCellValue('F1', 'FECHA Y HORA');
+
+
+        $fila = 2;
+        foreach ($resultados as $value) {
+            $hojaActiva->setCellValue('A' . $fila, $fila - 1);
+            $hojaActiva->setCellValue('B' . $fila, $value->name);
+            $hojaActiva->setCellValue('C' . $fila, $value->dni);
+            $hojaActiva->setCellValue('D' . $fila, $value->aula);
+            if ($value->candidatoId == null || $value->candidatoId == '' || $value->candidatoId == 0) {
+                $hojaActiva->setCellValue('E' . $fila, 'no');
+            } else {
+                $hojaActiva->setCellValue('E' . $fila, 'si');
+            }
+            $hojaActiva->setCellValue('F' . $fila, $value->date_access);
+            $fila++;
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="estudiantes.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+    public function uploaddata()
+    {
+        return view('students/uploaddata', [
+            'titleWeb' => 'panel de estudiantes',
+        ]);
+    }
+
+    public function uploaddatastore()
+    {
+        $data = $this->request()->getInput();
+
+        $allowedFileType = ['application/vnd.ms-excel', 'text/xls', 'text/xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+
+        if (in_array($data->file["type"], $allowedFileType)) {
+            //movel el archivo a la carpeta temporal
+            $excelPath = DIR_IMG . $data->file['name'];
+            move_uploaded_file($data->file['tmp_name'], $excelPath);
+
+            $documentoExcel = IOFactory::load($excelPath);
+            $hojaactual = $documentoExcel->getSheet(0);
+            $numeroFilas = $hojaactual->getHighestDataRow();
+
+
+
+            for ($iFila = 2; $iFila <= $numeroFilas; $iFila++) {
+                $valorA = $hojaactual->getCellByColumnAndRow(1, $iFila);
+                $valorB = $hojaactual->getCellByColumnAndRow(2, $iFila);
+                $valorC = $hojaactual->getCellByColumnAndRow(3, $iFila);
+
+                $data = [
+                    'name' => $valorA,
+                    'dni' => $valorB,
+                    'aula' => $valorC,
+                ];
+
+                $result = Students::create($data);
+            }
+
+            return redirect()->route('students.index');
+        }
+    }
+
+    public function deletedata()
+    {
+        Students::truncate();
+        return redirect()->route('students.index');
+    }
 }

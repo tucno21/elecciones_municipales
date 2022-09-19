@@ -38,3 +38,7 @@ Route::post('/students/edit', [StudentController::class, 'update']);
 Route::get('/students/delete', [StudentController::class, 'destroy'])->name('students.destroy');
 
 Route::get('/students/tablemodel', [StudentController::class, 'tablemodel'])->name('students.tablemodel');
+Route::get('/students/report', [StudentController::class, 'report'])->name('students.report');
+Route::get('/students/uploaddata', [StudentController::class, 'uploaddata'])->name('students.uploaddata');
+Route::post('/students/uploaddata', [StudentController::class, 'uploaddatastore']);
+Route::get('/students/deletedata', [StudentController::class, 'deletedata'])->name('students.deletedata');

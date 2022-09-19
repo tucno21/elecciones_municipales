@@ -11,7 +11,7 @@
 						<a class="mt-1 btn btn-primary" href="<?= route('students.create') ?>">Agregar Estudiante</a>
 					<?php endif; ?>
 
-					<a href="/estudiantes/reporte" class="mt-1 btn btn-success">
+					<a href="<?= route('students.report') ?>" class="mt-1 btn btn-success">
 						<i class="bi bi-arrow-down-square"></i>
 						<i class="bi bi-file-earmark-excel"></i>
 						Descargar Participación
@@ -23,10 +23,14 @@
 							<i class="bi bi-file-earmark-excel"></i>
 							Descargar Modelo
 						</a>
-						<a href="/estudiantes/subirdatos" class="mt-1 btn btn-success">
+						<a href="<?= route('students.uploaddata') ?>" class="mt-1 btn btn-success">
 							<i class="bi bi-arrow-up-square"></i>
 							<i class="bi bi-file-earmark-excel"></i>
 							Subir Estudiantes
+						</a>
+						<a href="<?= route('students.deletedata') ?>" class="mt-1 btn btn-danger avisoAlertaxx">
+							<i class="bi bi-trash3"></i>
+							Eliminar Todo
 						</a>
 					<?php endif; ?>
 				</div>
