@@ -54,7 +54,7 @@ $linksSidebar = [
     [
         'mode' => 'menu',
         'text' => 'Fecha de Electoral',
-        'url'  => '/charts',
+        'url'  => route('votingdate.index'),
         'icon' => 'bi bi-calendar-day',
     ],
     ['header' => 'Diseño'],
@@ -75,6 +75,7 @@ $linksCss = [
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet',
     $linkURL . '/assets/css/light.css',
     $linkURL . '/assets/css/icon/bootstrap-icons.css',
+    $linkURL . '/assets/plugins/flatpickr/flatpickr.min.css',
 ];
 
 $linksScript = [
@@ -82,4 +83,6 @@ $linksScript = [
     $linkURL . '/assets/js/datatable.js',
     $linkURL . '/assets/js/visorfoto.js',
     $linkURL . '/assets/js/sweetalert2.js',
+    $linkURL . '/assets/plugins/flatpickr/flatpickr.js',
+    $linkURL . '/assets/js/fecha.js',
 ];

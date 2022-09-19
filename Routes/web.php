@@ -6,6 +6,7 @@ use App\Controller\BackView\UserController;
 use App\Controller\BackView\StudentController;
 use App\Controller\BackView\CandidateController;
 use App\Controller\BackView\DashboardController;
+use App\Controller\BackView\VotingDateController;
 
 /**
  * cargar el autoloader de composer Y la configuracion de la aplicacion
@@ -51,3 +52,8 @@ Route::post('/candidates/create', [CandidateController::class, 'store']);
 Route::get('/candidates/edit', [CandidateController::class, 'edit'])->name('candidates.edit');
 Route::post('/candidates/edit', [CandidateController::class, 'update']);
 Route::get('/candidates/delete', [CandidateController::class, 'destroy'])->name('candidates.destroy');
+
+//voting date
+Route::get('/votingdate', [VotingDateController::class, 'index'])->name('votingdate.index');
+Route::get('/votingdate/edit', [VotingDateController::class, 'edit'])->name('votingdate.edit');
+Route::post('/votingdate/edit', [VotingDateController::class, 'update']);
