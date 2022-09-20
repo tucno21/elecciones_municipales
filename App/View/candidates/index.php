@@ -7,7 +7,9 @@
 		<div class="row">
 			<div class="card">
 				<div class="card-header">
-					<a class="btn btn-primary" href="<?= route('candidates.create') ?>">Agregar Candidato</a>
+					<?php if (session()->user()->rango == 'Administrador') : ?>
+						<a class="btn btn-primary" href="<?= route('candidates.create') ?>">Agregar Candidato</a>
+					<?php endif; ?>
 				</div>
 
 				<div class="card-body">
@@ -61,18 +63,20 @@
 										</td>
 									<?php endif; ?>
 
-									<td>
-										<div class="btn-group">
-											<a class="btn btn-warning" href="<?= route('candidates.edit') . '?id=' . $candidato->id ?>">
-												<i class="bi bi-pencil-square"></i>
-											</a>
+									<?php if (session()->user()->rango == 'Administrador') : ?>
+										<td>
+											<div class="btn-group">
+												<a class="btn btn-warning" href="<?= route('candidates.edit') . '?id=' . $candidato->id ?>">
+													<i class="bi bi-pencil-square"></i>
+												</a>
 
-											<a class="btn btn-danger avisoAlertaxx" href="<?= route('candidates.destroy') . '?id=' . $candidato->id ?>">
-												<i class="bi bi-trash-fill"></i>
-											</a>
+												<a class="btn btn-danger avisoAlertaxx" href="<?= route('candidates.destroy') . '?id=' . $candidato->id ?>">
+													<i class="bi bi-trash-fill"></i>
+												</a>
 
-										</div>
-									</td>
+											</div>
+										</td>
+									<?php endif; ?>
 								</tr>
 							<?php
 								$fila++;

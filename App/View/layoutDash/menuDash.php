@@ -1,5 +1,4 @@
 <?php
-
 // DATOS GENERALES ADMIN
 $title = 'Tu Voto';
 $mainLink = route('dashboard.index');
@@ -19,51 +18,62 @@ $menuSession = [
     ],
 ];
 
-
+$rango = session()->user()->rango;
 
 //CREACION DE ENLACES PARA EL MENU SIDEBAR
 $linksSidebar = [
-    ['header' => 'Dashboard',],
-    [
-        'mode' => 'menu',
-        'text' => 'Dashboard',
-        'url'  => route('dashboard.index'),
-        'icon' => 'bi bi-speedometer2',
-    ],
-    ['header' => 'Usuarios',],
-    [
-        'mode' => 'menu',
-        'text' => 'Usuarios',
-        'url'  => route('users.index'),
-        'icon' => 'bi bi-person',
-    ],
-    ['header' => 'Estudiantes',],
-    [
-        'mode' => 'menu',
-        'text' => 'Estudiantes',
-        'url'  => route('students.index'),
-        'icon' => 'bi bi-people',
-    ],
-    ['header' => 'Elecciones'],
-    [
-        'mode' => 'menu',
-        'text' => 'Candidatos',
-        'url'  => route('candidates.index'),
-        'icon' => 'bi bi-person-workspace',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Fecha de Electoral',
-        'url'  => route('votingdate.index'),
-        'icon' => 'bi bi-calendar-day',
-    ],
-    ['header' => 'Diseño'],
-    [
-        'mode' => 'menu',
-        'text' => 'Diseño',
-        'url'  => route('design.index'),
-        'icon' => 'bi bi-palette',
-    ],
+    ($rango == 'Administrador') ?
+        ['header' => 'Dashboard',] : null,
+    ($rango == 'Administrador') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Dashboard',
+            'url'  => route('dashboard.index'),
+            'icon' => 'bi bi-speedometer2',
+        ] : null,
+    ($rango == 'Administrador') ?
+        ['header' => 'Usuarios',] : null,
+    ($rango == 'Administrador') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Usuarios',
+            'url'  => route('users.index'),
+            'icon' => 'bi bi-person',
+        ] : null,
+    ($rango == 'Administrador' || $rango == 'Director' || $rango == 'Docente') ?
+        ['header' => 'Estudiantes',] : null,
+    ($rango == 'Administrador' || $rango == 'Director' || $rango == 'Docente') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Estudiantes',
+            'url'  => route('students.index'),
+            'icon' => 'bi bi-people',
+        ] : null,
+    ($rango == 'Administrador' || $rango == 'Director') ?
+        ['header' => 'Elecciones'] : null,
+    ($rango == 'Administrador' || $rango == 'Director') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Candidatos',
+            'url'  => route('candidates.index'),
+            'icon' => 'bi bi-person-workspace',
+        ] : null,
+    ($rango == 'Administrador' || $rango == 'Director') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Fecha de Electoral',
+            'url'  => route('votingdate.index'),
+            'icon' => 'bi bi-calendar-day',
+        ] : null,
+    ($rango == 'Administrador') ?
+        ['header' => 'Diseño'] : null,
+    ($rango == 'Administrador') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Diseño',
+            'url'  => route('design.index'),
+            'icon' => 'bi bi-palette',
+        ] : null,
 ];
 
 
