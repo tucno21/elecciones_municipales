@@ -1,7 +1,7 @@
 # ELECCIONES MUNICIPALES ESCOLARES
 
 <p align="center">
-<img width="350" src="https://raw.githubusercontent.com/tucno21/elecciones_municipales/login.png" alt="foto">
+<img width="350" src="https://raw.githubusercontent.com/tucno21/elecciones_municipales/master/login.png" alt="foto">
 </a>
 
 ## SISTEMA DE VOTACIÓN ESCOLAR MUNICIPAL PHP - MVC
