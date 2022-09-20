@@ -11,7 +11,7 @@ DB_PASSWORD=root
 
 # nombre de la carpeta de imagenes
 
-FOLDER_IMAGE=img
+FOLDER_IMAGE=assets/img
 
 # Zona horaria
 
