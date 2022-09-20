@@ -27,4 +27,15 @@ class Candidates extends Model
      */
     protected static $passEncrypt = false;
     protected static $useTimestamps   = false;
+
+    public static function AllVotos()
+    {
+        $query = "SELECT E.candidatoId, 
+                        C.name  
+                    FROM students E 
+                    INNER JOIN candidatos C ON E.candidatoId = C.id";
+
+        $data = parent::querySimple($query);
+        return $data;
+    }
 }

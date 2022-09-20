@@ -3,6 +3,10 @@
 namespace App\Controller\BackView;
 
 use System\Controller;
+use App\Model\Students;
+use App\Model\Candidates;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class DashboardController extends Controller
 {
@@ -16,72 +20,87 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $candidatos = Candidates::get();
+        $estudiantes = Students::get();
+
+        $votos = Candidates::AllVotos();
+        $resul = [];
+        foreach ($votos as $key => $value) {
+            array_push($resul, $value->name);
+        }
+        $resul2 = array_count_values($resul);
+        $resultados = (object)$resul2;
+
+        //ganador
+        $max = 0;
+        $ganador = '';
+        foreach ($resultados as $key => $value) {
+            if ($value > $max) {
+                $max = $value;
+                $ganador = $key;
+            }
+        }
+
+        $alcalde = ['cant' => $max, 'name' => $ganador];
+
         return view('dashboard/index', [
             'titleWeb' => 'Panel Administrativo',
+            'candidatos' => $candidatos,
+            'estudiantes' => $estudiantes,
+            'votos' => $votos,
+            'resultados' => $resultados,
+            'alcalde' => (object)$alcalde
         ]);
     }
 
-    public function create()
+    public function excel()
     {
-        //return view('folder/file', [
-        //   'var' => 'es una variable',
-        //]);
-    }
 
-    public function store()
-    {
-        $data = $this->request()->getInput();
+        // $query = "SELECT C.name, C.group_name, COUNT(E.voto) maximo 
+        // FROM students E 
+        // INNER JOIN candidatos C ON E.voto = C.id 
+        // GROUP BY voto 
+        // ORDER BY maximo DESC";
 
-        // $valid = $this->validate($data, [
-        //     'name' => 'required',
-        // ]);
-        // if ($valid !== true) {
-        //     return back()->route('route.name', [
-        //         'err' =>  $valid,
-        //         'data' => $data,
-        //     ]);
-        // } else {
-        //     Model::create($data);
-        //     return redirect()->route('route.name');
-        // }
-    }
+        $query = "SELECT C.name, C.group_name, COUNT(E.candidatoId) maximo 
+        FROM candidatos C 
+        INNER JOIN students E ON C.id = E.candidatoId 
+        GROUP BY candidatoId 
+        ORDER BY maximo DESC";
 
-    public function edit()
-    {
-        $id = $this->request()->getInput();
+        $resultados = Candidates::querySimple($query);
 
-        // if (empty((array)$id)) {
-        //     $rol = null;
-        // } else {
-        //     $rol = Model::first($id->id);
-        // }
-        // return view('folder.file', [
-        //     'data' => $rol,
-        // ]);
-    }
 
-    public function update()
-    {
-        $data = $this->request()->getInput();
-        // $valid = $this->validate($data, [
-        //     'name' => 'required',
-        // ]);
+        $excel = new Spreadsheet();
+        $hojaActiva = $excel->getActiveSheet();
+        $hojaActiva->setTitle('resultados');
+        $hojaActiva->getTabColor()->setRGB('FF0000');
 
-        // if ($valid !== true) {
-        //     return back()->route('route.name', [
-        //         'err' =>  $valid,
-        //         'data' => $data,
-        //     ]);
-        // } else {
-        //     Model::update($data->id, $data);
-        //     return redirect()->route('route.name');
-        // }
-    }
+        $hojaActiva->getColumnDimension('A')->setWidth(5);
+        $hojaActiva->setCellValue('A1', 'N');
+        $hojaActiva->getColumnDimension('B')->setWidth(30);
+        $hojaActiva->setCellValue('B1', 'NOMBRE GRUPO');
+        $hojaActiva->getColumnDimension('C')->setWidth(30);
+        $hojaActiva->setCellValue('C1', 'NOMBRE CANDIDATO');
+        $hojaActiva->getColumnDimension('D')->setWidth(8);
+        $hojaActiva->setCellValue('D1', 'VOTOS TOTAL');
 
-    public function destroy()
-    {
-        $data = $this->request()->getInput();
-        //$result = Model::delete((int)$data->id);
-        //return redirect()->route('route.name');
+
+        $fila = 2;
+        foreach ($resultados as $value) {
+            $hojaActiva->setCellValue('A' . $fila, $fila - 1);
+            $hojaActiva->setCellValue('B' . $fila, $value->group_name);
+            $hojaActiva->setCellValue('C' . $fila, $value->name);
+            $hojaActiva->setCellValue('D' . $fila, $value->maximo);
+            $fila++;
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="resultados.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

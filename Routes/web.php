@@ -24,6 +24,8 @@ Route::post('/admin', [LoginController::class, 'adminstore']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
 Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard.index');
+Route::get('/dashboard/excel', [DashboardController::class, "excel"])->name('dashboard.excel');
+
 
 //crud users
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
